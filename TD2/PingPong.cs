@@ -1,20 +1,10 @@
 ﻿using System;
 using Gtk;
 
-public class GtkHelloWorld {
+public class PingPong {
 	static void onClick (object obj, EventArgs args) {
-		Console.WriteLine(d (1,3, Add));
-		//Console.WriteLine("I have been clicked by a {0}", obj); 
+		Console.WriteLine("I have been clicked by a {0}", obj); 
 	}
-
-	public delegate void ClickerHero (Button a, Button b);
-	public static ClickerHero c = (a, b) =>
-	{a.Sensitive = false; b.Sensitive = true;};
-
-	public static Func<int, int, int> Add = (i,j) => i+j;
-
-	public delegate int Deleg (int a, int b, Func<int,int,int> f);
-	public static Deleg d = (a,b,f) => f(a,b);
 
 	public static void Main() {
 		Application.Init();
@@ -28,17 +18,36 @@ public class GtkHelloWorld {
 		// Set up a button object.
 		Button ping = new Button ("Ping");
 		Button pong = new Button ("Pong");
-		ping.Clicked += new EventHandler((object , EventArgs args) {
-			Console.WriteLine(d (1,3, Add));
-			//Console.WriteLine("I have been clicked by a {0}", obj); 
-		});
-		pong.Clicked += new EventHandler(ClickerHero(ping,pong));
 		myBox.Add(ping);
 		myBox.Add(pong);
 
+		Action<object, EventArgs> del = (obj, args) => {
+			Button button1 = (Button) obj;
+			Console.WriteLine("Wooaw ! It is working ! {0} has been clicked",button1.Label);
+
+			Button button2 ;
+			if (button1.Label == "Ping") {
+				button2 = pong;
+				button1.Label = "Ping";
+				button1.Sensitive = false;
+				button2.Label = "Pong";
+				button2.Sensitive = true;
+			} else {
+				button2 = ping;
+				button1.Label = "Pong";
+				button1.Sensitive = false;
+				button2.Label = "Ping";
+				button2.Sensitive = true;
+			}
+		};
+
+		ping.Clicked += new EventHandler (del);
+		pong.Clicked += new EventHandler (del);
 
 		//Show Everything     
-		myWin.ShowAll(); 
-		Application.Run(); }
+		myWin.ShowAll();
+
+		Application.Run();   
+	}
 }
 
