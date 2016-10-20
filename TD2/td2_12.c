@@ -1,10 +1,17 @@
- 
+/**
+ * TD2 Exercice 1.2
+ *  Pour le compiler : gcc td2_12.c -o td2_12
+ *  Pour l'exécuter : ./td2_12
+ *  
+ *  Résultat : 1, 3, 423
+ */
+
 #include <stdio.h>
 
 int i = 0;
 int f (int j){ 
-	i = i + j;
-	return i; 
+  i = i + j;
+  return i; 
 }
 
 int main(void)

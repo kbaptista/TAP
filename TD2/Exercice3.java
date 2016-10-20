@@ -1,4 +1,3 @@
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,21 +10,37 @@ public class Exercice3 {
 		for (int i = 0; i < 24; i++) {
 			myList.add(i);
 		}
-		Consumer<Integer> c=(Integer i) -> {System.out.print(i+" ; ");};
+		Consumer<Integer> c = (Integer i) -> { System.out.print(i+" ; "); }; //lambda-expression
+		
 		myList.forEach(c);
-		
+		System.out.println();
+
 		/**
-		 * forEach est d�fini dans l'interface Iterable.
-		 * c'est une m�thode par d�faut afin d'en ajouter la fonctionnalit� � l'interface Iterable,
-		 * tout en permettant de ne pas avoir aux anciens programme de devoir implementer cette m�thode.
-		 * On voit donc ici que cette m�thode est apparue r�cemment dans Java.
+		 * forEach est définie dans l'interface Iterable.
+		 * C'est une méthode par défaut qui permet d'ajouter une fonctionnalité d'itération à l'interface Iterable,
+		 * tout en permettant aux anciens programmes de ne pas avoir à implémenter cette méthode.
+		 * On peut noter ici que cette méthode est apparue récemment dans Java.
 		 */
+
+		List<Integer> list2 = Arrays.asList(18,11,1993,42,66);
+		list2.forEach(c);
+		System.out.println();
 		
-System.out.println();
-		List<Integer> list2 = Arrays.asList(18,11,1993,42,666);
+		list2.sort((Integer i, Integer j) -> { return j.compareTo(i); }); //lambda-expression
 		list2.forEach(c);
-System.out.println();
-		list2.sort( (Integer i, Integer j) -> { return j.compareTo(i); });
-		list2.forEach(c);
+		System.out.println();
+
+		/**
+		 * En java, le compilateur déduira le type de la lambda-expression en fonction d'où elle se trouve et de ce
+		 *  qu'elle doit faire. 
+		 *  Par exemple si elle fait l'objet d'un paramètre fonctionnel d'une fonction (ici forEach() et sort()),le 
+		 *  compilateur saura si le type de ses paramètres d'entrée et son type de retour sont corrects : 
+		 *  i.e qui corrrespondent à la signature de la fonction attendue.
+		 *  
+		 * En C#, il faut préciser clairement le type de retour de la variable à laquelle est affectée une fonction 
+		 *   anonyme sinon le compilateur ne connaîtra ni le type de la variable ni le type de retour de la
+		 *   lambda-expression. Le compilateur C# n'analyse le type de retour de la lambda-expression que grace à 
+		 *   son environnement, et donc en connaissant le type de la variable affectée.
+		 */
 	}
 }

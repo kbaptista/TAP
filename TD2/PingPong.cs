@@ -1,10 +1,18 @@
-﻿using System;
+﻿/*
+ * TD2 Exercice 2.3
+ *  Pour le compiler : mcs PingPong.cs
+ *  Pour l'exécuter : mono PingPong.exe
+ * 
+ *  Résultat :
+ *   Une fenêtre composée de 2 boutons "Ping" et "Pong" qui ne sont cliquables qu'un clic sur deux et
+ *   qui au clic sur eux affichent leur nom.
+ * 
+ */
+
+using System;
 using Gtk;
 
 public class PingPong {
-	static void onClick (object obj, EventArgs args) {
-		Console.WriteLine("I have been clicked by a {0}", obj); 
-	}
 
 	public static void Main() {
 		Application.Init();
@@ -21,28 +29,39 @@ public class PingPong {
 		myBox.Add(ping);
 		myBox.Add(pong);
 
-		Action<object, EventArgs> del = (obj, args) => {
+		Action<object, EventArgs> deleg = (obj, args) => {
 			Button button1 = (Button) obj;
-			Console.WriteLine("Wooaw ! It is working ! {0} has been clicked",button1.Label);
+			Console.WriteLine("Wooaw ! It is working ! {0} has been clicked !",button1.Label);
 
 			Button button2 ;
 			if (button1.Label == "Ping") {
 				button2 = pong;
-				button1.Label = "Ping";
 				button1.Sensitive = false;
-				button2.Label = "Pong";
 				button2.Sensitive = true;
 			} else {
 				button2 = ping;
-				button1.Label = "Pong";
 				button1.Sensitive = false;
-				button2.Label = "Ping";
 				button2.Sensitive = true;
 			}
 		};
 
-		ping.Clicked += new EventHandler (del);
-		pong.Clicked += new EventHandler (del);
+		ping.Clicked += new EventHandler (deleg);
+		pong.Clicked += new EventHandler (deleg);
+
+		/* Tester la fermeture du code revient à la modification des références des objets 
+		 * et voir si ça fonctionne (les 2 lignes commentées ci-dessous permettent le test).
+		 * 
+		 * Résultat : Malgré que le if, de l'event handler deleg, ne porte que sur le label 
+		 *  du bouton cliqué, un changement de référence des boutons fait que les boutons 
+		 *  "initiaux" restent bloqués dans un état (ici "non cliquable" à cause du jeu avec
+		 *  les propriétés Sensitive).
+		 * 
+		 * Conséquence : Changer les références d'un objet en C# est par obligation accompagné 
+		 *  de la réinitialisation de son environnement : ici réaffectation de son event handler 
+		 *  et ajout dans la fenêtre.
+		 */
+		//ping = new Button ("Ping");
+		//pong = new Button("Pong");
 
 		//Show Everything     
 		myWin.ShowAll();
@@ -50,4 +69,3 @@ public class PingPong {
 		Application.Run();   
 	}
 }
-
