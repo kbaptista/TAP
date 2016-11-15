@@ -1,0 +1,5 @@
+Exercice 2
+
+1) Int -> Number
+List<Int>  List<Number>
+List<Int> <- ArrayList<Int>
