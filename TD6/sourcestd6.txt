@@ -1,0 +1,93 @@
+(*** Exercice  1  ***)
+ 
+type value = 
+  | Int of int 
+  | Float of float;;
+ 
+let string_of_value x =
+ match x with 
+  | Int i   -> string_of_int i;
+  | Float f -> string_of_float f;;
+ 
+let rec sum_of_values a b = match (a,b) with 
+  | (Int i,Int j)     -> Int(i+j)
+  | (Int i,Float f)   -> Float((float i)+.f)
+  | (Float f,Float g) -> Float (f+.g);;
+ 
+(*** Exercice  2  ***)
+ 
+type 'a bintree = 
+| BinEmpty
+| BinNode of 'a * 'a bintree * 'a bintree
+
+let rec bintree_build f h x = 
+  if (h<=0)
+  then Empty
+  else let (x1,x2) = f(x) in 
+          Node (x,
+            (bintree_build f (h-1) x1),
+            (bintree_build f (h-1) x2));;
+ 
+(*** Exercice  3  ***)
+ 
+type 'k key = K of 'k
+and ('k, 'a) vertex = 'k key * 'a 
+and ('k, 'a) graph = Graph of (('k, 'a) vertex * 'k key list) list;;
+ 
+Graph ([
+         ((K 1, "Sommet"), [K 2; K 3]);
+         ((K 2, ""), [K 4; K 5]);
+         ((K 3, ""), [K 6; K 7]);
+         ((K 4, ""), []);
+         ((K 5, ""), []);
+         ((K 6, ""), []);
+         ((K 7, ""), []);
+       ])
+ 
+type 'a strategy = Strategy of ('a -> 'a list -> 'a list -> 'a list)
+ 
+(*** Exercice  4  ***)
+ 
+type 'a queue = Q of 'a list * 'a list;;    
+ 
+let q_fun  (Q (l1, l2)) = l1@l2
+ 
+(*** Exercice  5  ***)
+ 
+type op_bin = PLUS | MOINS | EQUAL | MULT | DIV;;
+type expression = 
+| ExpInt of int 
+| ExpVar of string
+| ExpBin of expression * op_bin * expression  ;;
+ 
+type valeur = Vint of int | VBool of bool;;
+ 
+type instruction = 
+| Goto of int 
+| Print of expression
+| Input of string 
+| If of expression * int 
+| Let of string * expression  ;;
+type ligne = { num : int ; inst : instruction }  ;;
+type program = ligne list  ;;
+ 
+10 INPUT N
+20 LET I = 1
+30 LET S = 1
+40 LET I = I + 1
+50 LET S = S * I
+60 IF (I = N) THEN GOTO 80
+70 GOTO 40
+80 PRINT S
+
+let prog = [
+  { num = 10; inst = Input "n" };
+  { num = 20; inst = Let ("i",ExpInt 1) };
+  { num = 30; inst = Let ("s",ExpInt 1) };
+  { num = 40; inst = Let ("i",(ExpBin ((ExpVar "i"),PLUS,(ExpInt 1)))) };
+  { num = 50; inst = Let ("s",(ExpBin ((ExpVar "s"),MULT,(ExpVar "i")))) };
+  { num = 60; inst = If ((ExpBin ((ExpVar "i"),EQUAL,(ExpVar "n"))),80) };
+  { num = 70; inst = Goto 40 };
+  { num = 80; inst = Print (ExpVar "s") };
+];;
+ 
