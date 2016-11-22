@@ -63,9 +63,9 @@ let rec tree_build h t =
   if (h<=0) then
     cons_arbre_vide
   else
-    let Noeud(e,l) = f(t) in 
-          cons_noeud (t,
-		      [(tree_build f (h-1) t)]);;
+    cons_noeud (t, [(tree_build (h-1) t)]);;
+
+let t3 = tree_build 3 2;;
 
 let racine a =
   match a with
@@ -80,7 +80,13 @@ let fils a =
 let rec tree_map_kev f tree =
   cons_noeud( f(racine tree), [tree_map_kev f (fils tree)]);;
 
-let tree_map_nat f tree
-    cons_noeud (t, [(tree_build (h-1) t)]);;
 
-let t3 = tree_build 3 2;;
+let rec list_map list fonction = 
+  match list with
+    | ArbreVide -> cons_arbre_vide
+    | Noeud(e,l) -> cons_noeud(fonction e, list_map l fonction);;
+
+let tree_map_nat f tree =
+  let l = list_map (fils tree) f in
+  cons_noeud(f tree, l);;
+
