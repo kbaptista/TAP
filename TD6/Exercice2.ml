@@ -55,16 +55,6 @@ type 'a arbre =
 let cons_arbre_vide = ArbreVide;;
 let cons_noeud(e,l) = Noeud(e,l);;
 
-let racine a =
-  match a with
-  | Noeud(e,l) -> e
-  | _ -> failwith "erreur";;
-
-let fils a =
-  match a with
-    | Noeud(e,l) -> l
-    | _ -> failwith "erreur";;
-
 (*** test d'utilisation ***)
 let t1 = cons_noeud(1,[cons_noeud(2,[cons_noeud(2,[cons_arbre_vide])])]);;
 let t2 = cons_noeud(1,[cons_noeud(11,[cons_noeud(111,[cons_arbre_vide]); cons_noeud(112,[cons_arbre_vide])])]);;
@@ -76,3 +66,16 @@ let rec tree_build f h t =
     let Noeud(e,l) = f(t) in 
           cons_noeud (t,
 		      [(tree_build f (h-1) t)]);;
+
+let racine a =
+  match a with
+  | Noeud(e,l) -> e
+  | _ -> failwith "erreur";;
+
+let fils a =
+  match a with
+    | Noeud(e,l) -> l
+    | _ -> failwith "erreur";;
+
+let rec tree_map f tree =
+  cons_noeud( f(racine tree), [tree_map f (fils tree)]);;
