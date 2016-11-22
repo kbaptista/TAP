@@ -71,6 +71,7 @@ let fils a =
     | Noeud(e,l)->l
     | _ -> failwith "erreur";;
 
+(*** test d'utilisation ***)
 let x = cons_noeud(1, cons_noeud(1,2));;
 
 let tree_build =
