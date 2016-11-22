@@ -69,10 +69,10 @@ let fils a =
 let t1 = cons_noeud(1,[cons_noeud(2,[cons_noeud(2,[cons_arbre_vide])])]);;
 let t2 = cons_noeud(1,[cons_noeud(11,[cons_noeud(111,[cons_arbre_vide]); cons_noeud(112,[cons_arbre_vide])])]);;
 
-let rec tree_build f h t = 
+let rec tree_build h t = 
   if (h<=0) then
     cons_arbre_vide
   else
-    let Noeud(e,l) = f(t) in 
-          cons_noeud (t,
-		      [(tree_build f (h-1) t)]);;
+    cons_noeud (t, [(tree_build (h-1) t)]);;
+
+let t3 = tree_build 3 2;;
