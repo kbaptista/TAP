@@ -48,12 +48,6 @@ let tree = bintree_insert tru 10;;
 
 (* Question 5 *)
 
-(*type 'a nodeAleaTree =
-  | TreeEmpty
-  | TreeFixed of 'a * (make_vect 5 'a nodeAleaTree);;
-*)
-
-
 type 'a arbre =
   | ArbreVide
   | Noeud of 'a * 'a arbre list;;
@@ -68,12 +62,17 @@ let racine a =
 
 let fils a =
   match a with
-    | Noeud(e,l)->l
+    | Noeud(e,l) -> l
     | _ -> failwith "erreur";;
 
 (*** test d'utilisation ***)
-let x = cons_noeud(1, cons_noeud(1,2));;
+let t1 = cons_noeud(1,[cons_noeud(2,[cons_noeud(2,[cons_arbre_vide])])]);;
+let t2 = cons_noeud(1,[cons_noeud(11,[cons_noeud(111,[cons_arbre_vide]); cons_noeud(112,[cons_arbre_vide])])]);;
 
-let tree_build =
-  ;;
-
+let rec tree_build f h t = 
+  if (h<=0) then
+    cons_arbre_vide
+  else
+    let Noeud(e,l) = f(t) in 
+          cons_noeud (t,
+		      [(tree_build f (h-1) t)]);;
