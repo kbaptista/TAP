@@ -59,7 +59,7 @@ let cons_noeud(e,l) = Noeud(e,l);;
 let t1 = cons_noeud(1,[cons_noeud(2,[cons_noeud(2,[cons_arbre_vide])])]);;
 let t2 = cons_noeud(1,[cons_noeud(11,[cons_noeud(111,[cons_arbre_vide]); cons_noeud(112,[cons_arbre_vide])])]);;
 
-let rec tree_build f h t = 
+let rec tree_build h t = 
   if (h<=0) then
     cons_arbre_vide
   else
@@ -77,5 +77,10 @@ let fils a =
     | Noeud(e,l) -> l
     | _ -> failwith "erreur";;
 
-let rec tree_map f tree =
-  cons_noeud( f(racine tree), [tree_map f (fils tree)]);;
+let rec tree_map_kev f tree =
+  cons_noeud( f(racine tree), [tree_map_kev f (fils tree)]);;
+
+let tree_map_nat f tree
+    cons_noeud (t, [(tree_build (h-1) t)]);;
+
+let t3 = tree_build 3 2;;
