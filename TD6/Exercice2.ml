@@ -48,6 +48,21 @@ let tree = bintree_insert tru 10;;
 
 (* Question 5 *)
 
-type nb_child_alea =
-  | NotFixed of 
-  | Fixed of 
+(*type 'a nodeAleaTree =
+  | TreeEmpty
+  | TreeFixed of 'a * (make_vect 5 'a nodeAleaTree);;
+*)
+
+
+type 'a arbre = Av | N of 'a * 'a arbre list;;
+
+let cons_arbre_vide = Av;;
+let cons_noeud(e,l) = N(e,l);;
+
+let racine a = match a with
+  | N(e,l) -> e
+  | _ -> failwith "erreur";;
+
+let fils a = ;;
+
+(* http://www.dicosmo.org/CourseNotes/IF242/Induction-arbres.pdf *)
