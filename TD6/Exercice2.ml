@@ -54,15 +54,25 @@ let tree = bintree_insert tru 10;;
 *)
 
 
-type 'a arbre = Av | N of 'a * 'a arbre list;;
+type 'a arbre =
+  | ArbreVide
+  | Noeud of 'a * 'a arbre list;;
 
-let cons_arbre_vide = Av;;
-let cons_noeud(e,l) = N(e,l);;
+let cons_arbre_vide = ArbreVide;;
+let cons_noeud(e,l) = Noeud(e,l);;
 
-let racine a = match a with
-  | N(e,l) -> e
+let racine a =
+  match a with
+  | Noeud(e,l) -> e
   | _ -> failwith "erreur";;
 
-let fils a = ;;
+let fils a =
+  match a with
+    | Noeud(e,l)->l
+    | _ -> failwith "erreur";;
 
-(* http://www.dicosmo.org/CourseNotes/IF242/Induction-arbres.pdf *)
+let x = cons_noeud(1, cons_noeud(1,2));;
+
+let tree_build =
+  ;;
+
