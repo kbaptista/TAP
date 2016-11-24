@@ -1,7 +1,22 @@
 (***** Exercice 1 *****)
 
+(* Question 1 *)
 type 'a vertex = V of 'a
 and 'a graph_full = Graph of ('a vertex * 'a vertex list) list;;
+
+let mon_graphe_string = Graph ([
+  ((V "Sapristi"), [(V "Saperlotte");(V "Sacrebleu");(V "Sacristin")]);
+  ((V "Saperlotte"), [(V "Sapristi");(V "Sacrebleu")]);
+  ((V "Sacrebleu"), [(V "Sapristi");(V "Saperlotte")]);
+  ((V "Sacristin"), [(V "Sapristi")]);
+]);;
+
+
+(* Question 2 *)
+  
+
+
+(* Question 3 *)
 
 type 'k key = K of 'k
 and ('k, 'a) vertex = 'k key * 'a 
@@ -14,17 +29,7 @@ let mon_graphe = Graph ([
   ((K 4, "Sacristin"), [K 1]);
 ]);;
 
-
-(* Question 1 *)
-
  
-
-(* Question 2 *)
-  
-
-(* Question 3 *)
-
-  
 (* Question 4 *)
   
 let graph_nexts(Graph g) som =
@@ -44,3 +49,6 @@ graph_map mon_graphe String.length;;
 
 
 (* Question 6 *)
+
+let component(Graph g) =
+  ;;
