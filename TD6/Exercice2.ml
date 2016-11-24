@@ -1,7 +1,6 @@
-(*** Exercice 2 ***)
+(**** Exercice 2 ****)
 
-(* Question 1 *)
-
+(*** Question 1 ***)
 
 type 'a bintree = 
 | BinEmpty
@@ -18,9 +17,12 @@ let rec bintree_build f h x =
 let f x = (2*x, 2*x+1);;
 
 let tru = bintree_build f 2 3;;
+(* val tru : int bintree =
+   BinNode (3, BinNode (6, BinEmpty, BinEmpty),
+   BinNode (7, BinEmpty, BinEmpty)) *)
 
 
-(* Question 2 *)
+(*** Question 2 ***)
 
 let rec bintree_map t f =
   match t with
@@ -29,7 +31,7 @@ let rec bintree_map t f =
 (* val bintree_map : 'a bintree -> ('a -> 'b) -> 'b bintree = <fun> *)
 
 
-(* Question 3 *)
+(*** Question 3 ***)
 
 let rec bintree_insert t x =
     match t with
@@ -39,54 +41,74 @@ let rec bintree_insert t x =
 	  BinNode (bn, l1,  bintree_insert l2 x)
 	else
 	  BinNode (bn, bintree_insert l1 x , l2)
+(* val bintree_insert : 'a bintree -> 'a -> 'a bintree = <fun> *)
 
-let tree = bintree_insert tru 10;;
+let truc = bintree_insert tru 10;;
+(* val truc : int bintree =
+   BinNode (3, BinNode (6, BinNode (10, BinEmpty, BinEmpty), BinEmpty),
+   BinNode (7, BinEmpty, BinEmpty)) *)
+
+let truc2 = bintree_insert tru 2;;
+(* val truc2 : int bintree =
+   BinNode (3, BinNode (6, BinEmpty, BinEmpty),
+   BinNode (7, BinEmpty, BinNode (2, BinEmpty, BinEmpty))) *)
 
 
-(* Question 4 : Persistance *)
+(*** Question 4 : Persistance ***)
+tru;;
+(* 
+- : int bintree =
+   BinNode (3, BinNode (6, BinEmpty, BinEmpty), BinNode (7, BinEmpty, BinEmpty)) 
+*)
+
+(* tru reste l'arbre initial, tel qu'il a été créé. *)
+(* La persistance de cet objet peut être expliqué par le fait que la 
+   fonction bintree_insert ne manipule que les valeurs des objets manipulés
+   et non leurs adresses/références *)
+(* Ceci est possible car le langage OCaml garanti que les valeurs sont 
+   immuables et que les fonctions créent et retournent de nouvelles valeurs *)
 
 
-(* Question 5 *)
+(*** Question 5 : tree_build ***)
 
 type 'a arbre =
   | ArbreVide
   | Noeud of 'a * 'a arbre list;;
 
-let cons_arbre_vide = ArbreVide;;
-let cons_noeud(e,l) = Noeud(e,l);;
 
-(*** test d'utilisation ***)
-let t1 = cons_noeud(1,[cons_noeud(2,[cons_noeud(2,[cons_arbre_vide])])]);;
-let t2 = cons_noeud(1,[cons_noeud(11,[cons_noeud(111,[cons_arbre_vide]); cons_noeud(112,[cons_arbre_vide])])]);;
+let tree_build(value,l) = Noeud(value,l);;
 
-let rec tree_build h t = 
-  if (h<=0) then
-    cons_arbre_vide
-  else
-    cons_noeud (t, [(tree_build (h-1) t)]);;
-
-let t3 = tree_build 3 2;;
-
-let racine a =
-  match a with
-  | Noeud(e,l) -> e
-  | _ -> failwith "erreur";;
-
-let fils a =
-  match a with
-    | Noeud(e,l) -> l
-    | _ -> failwith "erreur";;
-
-let rec tree_map_kev f tree =
-  cons_noeud( f(racine tree), [tree_map_kev f (fils tree)]);;
+let t1 = tree_build(1,
+		    [ tree_build(2,
+				[ tree_build(2,
+					    [ ArbreVide ])])]);;
+let t2 = tree_build(1,
+		    [ tree_build(11,
+				 [ tree_build(111,
+					      [ ArbreVide ]);
+				   tree_build(112,
+					      [ ArbreVide ])
+				 ])
+		    ]);;
 
 
-let rec list_map list fonction = 
-  match list with
-    | ArbreVide -> cons_arbre_vide
-    | Noeud(e,l) -> cons_noeud(fonction e, list_map l fonction);;
+(*** Question 6 : tree_map ***)
 
-let tree_map_nat f tree =
-  let l = list_map (fils tree) f in
-  cons_noeud(f tree, l);;
+let rec tree_map f t = match t with
+    (Noeud(a,l)) -> Noeud(f a, List.map (tree_map f) l)
+  | ArbreVide -> ArbreVide;;
 
+let f x = 2*x;;
+
+let t3 = tree_map f t2;;
+
+
+(*** Question 7 : tree_map recursif terminal ***)
+
+let rec tree_map_rec_terminal f t = match t with
+    (Noeud(a,l)) -> Noeud(f a, List.rev_map (tree_map_rec_terminal f) l)
+  | ArbreVide -> ArbreVide;;
+
+let f x = 4*x;;
+
+let t4 = tree_map f t2;;
