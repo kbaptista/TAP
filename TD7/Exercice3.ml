@@ -12,7 +12,9 @@ let singleton x = Set (fun y -> x=y);;
 
 (* Question 2 *)
 
+let set_mem (Set s) x =  s x;
 
+  
 (* Question 3 *)
 
 
