@@ -13,7 +13,11 @@ let mon_graphe_string = Graph ([
 
 
 (* Question 2 *)
-  
+  (* 
+     Le problème vient du fait qu'en mofifiant la valeur d'un sommet,
+     il faudrait le retrouver parmis les liens de chaque sommet du graphe,
+     et appliquer la même modification.
+  *)
 
 
 (* Question 3 *)
@@ -29,6 +33,10 @@ let mon_graphe = Graph ([
   ((K 4, "Sacristin"), [K 1]);
 ]);;
 
+(*
+  On définit un sommet comme un couple clé-valeur.
+  Les voisins de chaque sommet sont donc listés par leur clé.
+*)
  
 (* Question 4 *)
   
@@ -48,7 +56,7 @@ let graph_map(Graph g) f =
 graph_map mon_graphe String.length;;
 
 
-(* Question 6 *)
+(* Question 6 : pas faite dans l'autre groupe, on suppose donc qu'il en va de même *)
 
 let component(Graph g) =
   ;;
